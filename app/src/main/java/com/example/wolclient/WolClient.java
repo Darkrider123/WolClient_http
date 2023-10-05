@@ -1,50 +1,21 @@
 package com.example.wolclient;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 
 public class WolClient {
 
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
-
-
-    public void startConnection(String host, Integer port) throws java.io.IOException {
-        clientSocket = new Socket(host, port);
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-    }
+    private final Json json = Json.getInstance();
+    private final Request request = Request.getInstance();
 
     public String startServer() throws java.io.IOException {
-        return commandServer("start");
+        return json.objectMapper.readValue(request.post(Config.startURL, null).getBody(), MessageDto.class).getMessage();
     }
 
     public String stopServer() throws java.io.IOException{
-       return commandServer("stop");
+       return json.objectMapper.readValue(request.post(Config.stopURL, null).getBody(), MessageDto.class).getMessage();
     }
 
     public String getServerStatus() throws java.io.IOException{
-        return commandServer("status");
-    }
-
-    public String closeConnection() throws java.io.IOException{
-        String returnedMessage = commandServer("exit");
-        closeCurrentConnection();
-        return returnedMessage;
-    }
-
-    private String commandServer(String command) throws java.io.IOException{
-        out.println(command);
-        return in.readLine();
-    }
-
-    private void closeCurrentConnection() throws java.io.IOException {
-        in.close();
-        out.close();
-        clientSocket.close();
+        return json.objectMapper.readValue(request.get(Config.statusURL).getBody(), MessageDto.class).getMessage();
     }
 
 }
