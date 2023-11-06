@@ -6,6 +6,8 @@ public class Config {
     public static String stopURL = ConfigThatShouldntAppearOnGit.stopURL;
     public static String statusURL = ConfigThatShouldntAppearOnGit.statusURL;
 
+    public static String restartURL = ConfigThatShouldntAppearOnGit.restartURL;
+
     public static Integer connectionTimeout = 1000 * 31; // 31 seconds
     public static Integer connectionReadTimeout = 1000 * 31; // 31 seconds
 

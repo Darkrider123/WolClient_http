@@ -18,4 +18,8 @@ public class WolClient {
         return json.objectMapper.readValue(request.get(Config.statusURL).getBody(), MessageDto.class).getMessage();
     }
 
+    public String restartServer() throws java.io.IOException{
+        return json.objectMapper.readValue(request.put(Config.restartURL, null).getBody(), MessageDto.class).getMessage();
+    }
+
 }

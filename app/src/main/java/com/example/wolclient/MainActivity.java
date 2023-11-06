@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         Button status = findViewById(R.id.status);
         Button start = findViewById(R.id.start);
         Button stop = findViewById(R.id.stop);
+        Button restart = findViewById(R.id.restart);
 
 
         status.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                final String message = stopServer();
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String message = restartServer();
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
@@ -93,6 +102,23 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     message = "Nu am reusit sa comunic oprirea serverului";
+                }
+            }
+        };
+
+        startSeparateThreadToDoDirtyWorkAndWait(networkWorker);
+        return networkWorker.getMessage();
+    }
+
+    private String restartServer() {
+        NetworkWorker networkWorker = new NetworkWorker() {
+            @Override
+            public void run() {
+                try {
+                    message = wolClient.restartServer();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    message = "Nu am reusit sa comunic restartul serverului";
                 }
             }
         };

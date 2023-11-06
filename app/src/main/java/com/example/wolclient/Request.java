@@ -29,6 +29,10 @@ public class Request {
         return makeRequest(url, HTTPMethods.POST, body_object);
     }
 
+    public GenericResponse put(String url, Object body_object) throws IOException {
+        return makeRequest(url, HTTPMethods.PUT, body_object);
+    }
+
     public GenericResponse makeRequest(String url, HTTPMethods httpMethod, Object body_object) throws IOException {
 
         URL url_object = new URL(url);
